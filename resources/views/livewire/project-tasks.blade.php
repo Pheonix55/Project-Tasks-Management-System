@@ -304,78 +304,84 @@
 
     @if ($filterProject)
         {{-- Tasks Table --}}
-        <div class="dark-sidebar shadow rounded p-4">
-            <h2 class="text-lg font-semibold mb-3 text-light">Tasks</h2>
-            <table class="w-full border-collapse text-light">
-                <thead class="dark-bg text-light font-semibold">
-                    <tr>
-                        <th class="border dark-border px-3 py-2 text-left">-</th>
-                        <th class="border dark-border px-3 py-2 text-left">#</th>
-                        <th class="border dark-border px-3 py-2 text-left">Task Name</th>
-                        <th class="border dark-border px-3 py-2 text-left">Project</th>
-                        <th class="border dark-border px-3 py-2 text-left">Priority</th>
-                        <th class="border dark-border px-3 py-2 text-left">Created At</th>
-                        <th class="border dark-border px-3 py-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="tasks-list" class="dark-bg text-light">
-                    @forelse($tasks as $task)
-                        <tr data-id="{{ $task->id }}" data-proj-id="{{ $task->project_id }}"
-                            class="hover:bg-gray-200 transition ">
-                            <td class="border dark-border px-3 py-2 text-center">
-                                <!-- Drag Handle -->
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-gray-400 drag-handle cursor-move" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-                                </svg>
-                            </td>
-                            <td class="border dark-border px-3 py-2">{{ $loop->iteration }}</td>
-                            <td class="border dark-border px-3 py-2">{{ $task->name }}</td>
-                            <td class="border dark-border px-3 py-2">{{ $task->project->name }}</td>
-                            <td class="border dark-border px-3 py-2">{{ $task->priority }}</td>
-                            <td class="border dark-border px-3 py-2">
-                                @if ($task->created_at->lt(now()->subDay()))
-                                    {{ $task->created_at->format('d M Y') }}
-                                @else
-                                    {{ $task->created_at->diffForHumans() }}
-                                @endif
-                            </td>
-                            <td class="border dark-border px-3 py-2 flex gap-2">
-                                <button wire:click="openEditTaskModal({{ $task->id }})"
-                                    class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-2 py-1 rounded text-sm transition">
-                                    Edit
-                                </button>
-                                <button wire:click="deleteTask({{ $task->id }})"
-                                    class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-sm transition">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="border dark-border px-3 py-2 text-center text-gray-400">
-                                No tasks found
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <div class="overflow-x-auto w-full p-2 sm:p-4">
+            <div class="min-w-[600px] md:min-w-full">
 
-            {{-- Pagination --}}
-            @if ($tasksTotalPages > 1)
-                <div class="flex justify-center gap-1 mt-4">
-                    @for ($page = 1; $page <= $tasksTotalPages; $page++)
-                        <button wire:click="updateTaskPage({{ $page }})"
-                            class="px-3 py-1 border rounded transition
+
+                <div class="dark-sidebar shadow rounded p-4">
+                    <h2 class="text-lg font-semibold mb-3 text-light">Tasks</h2>
+                    <table class="w-full border-collapse text-light">
+                        <thead class="dark-bg text-light font-semibold">
+                            <tr>
+                                <th class="border dark-border px-3 py-2 text-left">-</th>
+                                <th class="border dark-border px-3 py-2 text-left">#</th>
+                                <th class="border dark-border px-3 py-2 text-left">Task Name</th>
+                                <th class="border dark-border px-3 py-2 text-left">Project</th>
+                                <th class="border dark-border px-3 py-2 text-left">Priority</th>
+                                <th class="border dark-border px-3 py-2 text-left">Created At</th>
+                                <th class="border dark-border px-3 py-2 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasks-list" class="dark-bg text-light">
+                            @forelse($tasks as $task)
+                                <tr data-id="{{ $task->id }}" data-proj-id="{{ $task->project_id }}"
+                                    class="hover:bg-gray-200 transition ">
+                                    <td class="border dark-border px-3 py-2 text-center">
+                                        <!-- Drag Handle -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-5 w-5 text-gray-400 drag-handle cursor-move" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                                        </svg>
+                                    </td>
+                                    <td class="border dark-border px-3 py-2">{{ $loop->iteration }}</td>
+                                    <td class="border dark-border px-3 py-2">{{ $task->name }}</td>
+                                    <td class="border dark-border px-3 py-2">{{ $task->project->name }}</td>
+                                    <td class="border dark-border px-3 py-2">{{ $task->priority }}</td>
+                                    <td class="border dark-border px-3 py-2">
+                                        @if ($task->created_at->lt(now()->subDay()))
+                                            {{ $task->created_at->format('d M Y') }}
+                                        @else
+                                            {{ $task->created_at->diffForHumans() }}
+                                        @endif
+                                    </td>
+                                    <td class="border dark-border px-3 py-2 flex gap-2">
+                                        <button wire:click="openEditTaskModal({{ $task->id }})"
+                                            class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-2 py-1 rounded text-sm transition">
+                                            Edit
+                                        </button>
+                                        <button wire:click="deleteTask({{ $task->id }})"
+                                            class="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded text-sm transition">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="border dark-border px-3 py-2 text-center text-gray-400">
+                                        No tasks found
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                    {{-- Pagination --}}
+                    @if ($tasksTotalPages > 1)
+                        <div class="flex justify-center gap-1 mt-4">
+                            @for ($page = 1; $page <= $tasksTotalPages; $page++)
+                                <button wire:click="updateTaskPage({{ $page }})"
+                                    class="px-3 py-1 border rounded transition
                             {{ $tasksPage === $page
                                 ? 'bg-green-600 text-white border-green-600'
                                 : 'dark-sidebar text-light dark-border hover:bg-gray-200' }}">
-                            {{ $page }}
-                        </button>
-                    @endfor
+                                    {{ $page }}
+                                </button>
+                            @endfor
+                        </div>
+                    @endif
                 </div>
-            @endif
+            </div>
         </div>
     @else
         <p class="text-gray-400 mt-4">Select a project to view tasks.</p>

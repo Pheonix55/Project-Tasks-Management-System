@@ -32,8 +32,8 @@ A web application built with **Laravel 10**, **Livewire 3**, and **TailwindCSS**
 ### 1. Clone the Project
 
 ```bash
-git clone https://github.com//project-tasks.git
-cd project-tasks
+git clone https://github.com/Pheonix55/Project-Tasks-Management-System.git
+cd Project-Tasks-Management-System
 ```
 
 ### 2. Install PHP Dependencies
@@ -147,7 +147,7 @@ npm run build
 ## Notes
 
 * The project uses **Livewire** for dynamic frontend updates without page reloads.
-* Task sorting is handled using **SortableJS**.
+* Task sorting is handled using **SortableJS** you can check it out for your self here  [Sortable.js](https://github.com/SortableJS/Sortable).
 * The dark mode can be toggled by adding the `dark` class to the `<html>` tag.
 
 ---
