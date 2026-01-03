@@ -32,7 +32,7 @@ A web application built with **Laravel 10**, **Livewire 3**, and **TailwindCSS**
 ### 1. Clone the Project
 
 ```bash
-git clone https://github.com/your-username/project-tasks.git
+git clone https://github.com//project-tasks.git
 cd project-tasks
 ```
 
@@ -92,7 +92,10 @@ Or for production:
 ```bash
 npm run build
 ```
-
+also if you want to add dummy data, i have created a seeder run it by using this command 
+```bash
+php artisan db:seed
+```
 ### 9. Start the Local Server
 
 ```bash
@@ -102,7 +105,13 @@ php artisan serve
 Open your browser at `http://127.0.0.1:8000`.
 
 ---
-
+### 10. default email and password for the user
+```bash
+user@example.com
+```
+```bash
+password
+```
 ## Usage
 
 1. Select a project from the dropdown to see its tasks.
